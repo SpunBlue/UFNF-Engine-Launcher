@@ -23,7 +23,15 @@ class PlayState extends FlxState
 		// lil test
 		#if !js
 		var versions = sys.Http.requestUrl("https://thepercentageguy.github.io/UFNF-Engine-Launcher/").split(",");
-		trace(versions);
+
+		for (version in versions)
+		{
+			changelog.text += '\n\n${version}:';
+			for (line in sys.Http.requestUrl('https://thepercentageguy.github.io/UFNF-Engine-Launcher/${version}/changelog.txt').split("\n"))
+			{
+				changelog.text += '\n    - ${line}';
+			}
+		}
 		#end
 
 		super.create();
