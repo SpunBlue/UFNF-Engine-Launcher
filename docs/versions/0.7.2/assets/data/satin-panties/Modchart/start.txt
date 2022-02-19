@@ -1,1 +1,0 @@
-camHUD.zoom = 2;
