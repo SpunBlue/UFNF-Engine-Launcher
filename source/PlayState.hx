@@ -8,6 +8,7 @@ import flixel.addons.ui.StrNameLabel;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import haxe.exceptions.NotImplementedException;
+import lime.app.Application;
 
 using StringTools;
 
@@ -46,10 +47,12 @@ class PlayState extends FlxState
 		// changelog loop
 		for (version in versions)
 		{
-			if (!version.trim().endsWith("--S"))
+			var ver = version.split(":")[0];
+
+			if (!ver.trim().endsWith("--S"))
 			{
-				changelog.text += '\n\n${version.trim()}:';
-				for (line in sys.Http.requestUrl('https://raw.githubusercontent.com/thepercentageguy/UFNF-Engine-Launcher/master/versions/${version.trim()}/changelog.txt')
+				changelog.text += '\n\n${ver.trim()}:';
+				for (line in sys.Http.requestUrl('https://raw.githubusercontent.com/thepercentageguy/UFNF-Engine-Launcher/master/versions/${ver.trim()}/changelog.txt')
 					.split("\n"))
 				{
 					changelog.text += '\n    - ${line}';
@@ -61,10 +64,12 @@ class PlayState extends FlxState
 		var finalArray = [];
 		for (version in versions)
 		{
-			if (version.trim().endsWith("--S"))
+			var ver = version.split(":")[0];
+
+			if (ver.trim().endsWith("--S"))
 			{
 				var tmpString = "";
-				var tempArray = version.trim().split("");
+				var tempArray = ver.trim().split("");
 				tempArray.pop();
 				tempArray.pop();
 				tempArray.pop();
@@ -73,7 +78,7 @@ class PlayState extends FlxState
 			}
 			else
 			{
-				finalArray.push(new StrNameLabel(version.trim(), version.trim()));
+				finalArray.push(new StrNameLabel(ver.trim(), ver.trim()));
 			}
 		}
 		funnyVersion = new FlxUIDropDownMenu(10, funkyOverlay.y, finalArray);
@@ -98,7 +103,7 @@ class PlayState extends FlxState
 	{
 		#if !js
 		// first check if the selected version is already downloaded
-		if (sys.FileSystem.exists('downloads/${funnyVersion.selectedId}'))
+		if (sys.FileSystem.exists('downloads/${funnyVersion.selectedId.trim()}'))
 		{
 			// just launch the game
 			Sys.command('start runGame.bat ${funnyVersion.selectedId} ${funnyVersion.selectedId.trim().split("-")[0]}');
@@ -107,6 +112,7 @@ class PlayState extends FlxState
 		else
 		{
 			// download the game
+			Application.current.window.alert("Downloading game...", "Please wait...");
 		}
 		#end
 	}
