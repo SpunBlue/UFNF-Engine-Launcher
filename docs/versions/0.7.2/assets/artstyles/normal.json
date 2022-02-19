@@ -1,0 +1,9 @@
+{
+    "name": "normal",
+    "notes": "NOTE_assets",
+    "arrowEnds": "",
+    "uiPrefix": "",
+    "library": "shared",
+    "antialiasing": true,
+    "indexAnimation": false
+}
