@@ -18,6 +18,13 @@ class PlayState extends FlxState
 		var changelog = new FlxText(0, 70, FlxG.width - 10, "Changelogs:");
 		changelog.alignment = LEFT;
 		changelog.screenCenter(X);
+		add(changelog);
+
+		// lil test
+		#if !js
+		var versions = sys.Http.requestUrl("https://thepercentageguy.github.io/UFNF-Engine-Launcher/").split(",");
+		trace(versions);
+		#end
 
 		super.create();
 	}
