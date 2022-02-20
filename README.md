@@ -2,6 +2,10 @@
 This is the official launcher for UFNF engine where you can select mods and any version of UFNF you want to play.
 
 ## HOW TO ADD YOUR MOD
+**There are some things you need to name specifically!**
+- make sure your .exe file is named ``Funkin.exe``
+- make sure your zip file name matches up with the name you will put into the list
+
 1. take all your mod's files and put them in a zip file. make sure compression is turned off!
 2. upload your files to dropbox
 3. fork this repository
