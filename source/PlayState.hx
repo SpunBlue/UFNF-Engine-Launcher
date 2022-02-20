@@ -15,6 +15,10 @@ using StringTools;
 class PlayState extends FlxState
 {
 	var funnyVersion:FlxUIDropDownMenu;
+	var playButton:FlxButton;
+	var allowPlay = true;
+
+	var link:String = "";
 
 	override public function create()
 	{
@@ -34,7 +38,7 @@ class PlayState extends FlxState
 		funkyOverlay.makeGraphic(FlxG.width, 50, 0xFFA1A1A1);
 		add(funkyOverlay);
 
-		var playButton = new FlxButton(0, funkyOverlay.y, "Play", onPlayClick);
+		playButton = new FlxButton(0, funkyOverlay.y, "Play", onPlayClick);
 		playButton.screenCenter(X);
 		playButton.y += 25 - playButton.height / 2;
 		add(playButton);
@@ -48,6 +52,7 @@ class PlayState extends FlxState
 		for (version in versions)
 		{
 			var ver = version.split(":")[0];
+			link = version.split(":")[1];
 
 			if (!ver.trim().endsWith("--S"))
 			{
@@ -101,19 +106,38 @@ class PlayState extends FlxState
 
 	function onPlayClick()
 	{
-		#if !js
-		// first check if the selected version is already downloaded
-		if (sys.FileSystem.exists('downloads/${funnyVersion.selectedId.trim()}'))
+		if (allowPlay)
 		{
-			// just launch the game
-			Sys.command('start runGame.bat ${funnyVersion.selectedId} ${funnyVersion.selectedId.trim().split("-")[0]}');
-			// Sys.command('start downloads/${funnyVersion.selectedId.trim()}/${funnyVersion.selectedId.trim().split("-")[0]}.exe');
+			#if !js
+			// first check if the selected version is already downloaded
+			if (sys.FileSystem.exists('downloads/${funnyVersion.selectedId.trim()}'))
+			{
+				// just launch the game
+				Sys.command('start runGame.bat ${funnyVersion.selectedId.trim()}');
+				// Sys.command('start downloads/${funnyVersion.selectedId.trim()}/${funnyVersion.selectedId.trim().split("-")[0]}.exe');
+			}
+			else
+			{
+				// download the game
+				Application.current.window.alert("Downloading game...", "Please wait...");
+				sys.FileSystem.createDirectory('downloads/${funnyVersion.selectedId.trim()}');
+				playButton.text = "Downloading...";
+				allowPlay = false;
+				var isDone = false;
+				sys.thread.Thread.create(() ->
+				{
+					Sys.command('powershell -command "iwr -outf downloads/${funnyVersion.selectedId.trim()}/${funnyVersion.selectedId.trim()}.zip ${link}"');
+					isDone = true;
+					if (isDone)
+						Util.unzipFile('downloads/${funnyVersion.selectedId.trim()}/${funnyVersion.selectedId.trim()}.zip',
+							'downloads/${funnyVersion.selectedId.trim()}');
+					Application.current.window.alert("Launching game!", "Done!");
+					Sys.command('start runGame.bat ${funnyVersion.selectedId.trim()}');
+					playButton.text = "Play";
+					allowPlay = true;
+				});
+			}
+			#end
 		}
-		else
-		{
-			// download the game
-			Application.current.window.alert("Downloading game...", "Please wait...");
-		}
-		#end
 	}
 }

@@ -4,7 +4,7 @@ import sys.io.File;
 
 class Util
 {
-	private static function unzipFile(srcZip:String, dstDir:String, ignoreRootFolder:Bool = false)
+	public static function unzipFile(srcZip:String, dstDir:String, ignoreRootFolder:Bool = false)
 	{
 		FileSystem.createDirectory(dstDir);
 

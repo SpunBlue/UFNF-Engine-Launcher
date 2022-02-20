@@ -1,8 +1,7 @@
 @echo off
 set gameFolder=%1
-set gameName=%2
 cd downloads
 cd %gameFolder%
-start %gameName%.exe
+start Funkin.exe
 exit 0
 @echo on
