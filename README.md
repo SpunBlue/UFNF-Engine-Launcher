@@ -12,3 +12,4 @@ This is the official launcher for UFNF engine where you can select mods and any 
 
 > Side note: if you want to upload an update please remove the previous version!
 > Only mods made in UFNF are accepted!
+> Please put your mod behind the latest UFNF version so the list kinda looks like this: `LATEST-UFNF:LINK,YOUR-MOD:LINK,OLDER-MOD:LINK,OLDER-UFNF:LINK`
