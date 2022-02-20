@@ -11,3 +11,4 @@ This is the official launcher for UFNF engine where you can select mods and any 
 7. make a pull request to this repository with your update.
 
 > Side note: if you want to upload an update please remove the previous version!
+> Only mods made in UFNF are accepted!
