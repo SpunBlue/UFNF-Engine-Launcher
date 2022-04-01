@@ -62,7 +62,7 @@ class PlayState extends FlxState
 
 		// lil test
 		#if !js
-		var versions = sys.Http.requestUrl("https://raw.githubusercontent.com/thepercentageguy/UFNF-Engine-Launcher/master/versions/index.html").split(",");
+		var versions = sys.Http.requestUrl("https://raw.githubusercontent.com/spunblue/UFNF-Engine-Launcher/master/versions/index.html").split(",");
 		trace(versions);
 
 		// changelog loop
@@ -74,7 +74,7 @@ class PlayState extends FlxState
 			if (!ver.trim().endsWith("--S"))
 			{
 				changelog.text += '\n\n${ver.trim()}:';
-				for (line in sys.Http.requestUrl('https://raw.githubusercontent.com/thepercentageguy/UFNF-Engine-Launcher/master/versions/${ver.trim()}/changelog.txt')
+				for (line in sys.Http.requestUrl('https://raw.githubusercontent.com/spunblue/UFNF-Engine-Launcher/master/versions/${ver.trim()}/changelog.txt')
 					.split("\n"))
 				{
 					changelog.text += '\n    - ${line}';
