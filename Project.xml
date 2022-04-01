@@ -16,7 +16,7 @@
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<!--These window settings apply to all targets-->
-	<window width="640" height="360" fps="60" background="#000000" hardware="true" vsync="false" />
+	<window width="768" height="432" fps="60" background="#000000" hardware="true" vsync="false" />
 
 	<!--HTML5-specific-->
 	<window if="html5" resizable="false" />
@@ -33,6 +33,7 @@
 	<source path="source" />
 
 	<assets path="runGame.bat" rename="runGame.bat" />
+	<assets path="data"/>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 

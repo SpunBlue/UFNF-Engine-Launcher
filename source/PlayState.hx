@@ -1,5 +1,6 @@
 package;
 
+import haxe.io.Path;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -9,6 +10,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import haxe.exceptions.NotImplementedException;
 import lime.app.Application;
+import flixel.graphics.frames.FlxAtlasFrames;
 
 using StringTools;
 
@@ -24,17 +26,32 @@ class PlayState extends FlxState
 	{
 		FlxG.camera.antialiasing = true;
 
-		var title = new FlxText(0, 10, FlxG.width, "UFNF Engine Launcher");
+		/*var title = new FlxText(0, FlxG.height - 32, FlxG.width, "UFNF Engine Launcher");
 		title.alignment = CENTER;
 		title.size = 32;
-		add(title);
+		add(title);*/
+
+		var bg = new FlxSprite(0, 0, "data/stageback.png");
+		bg.antialiasing = true;
+		bg.setGraphicSize(FlxG.width, FlxG.height);
+		bg.updateHitbox();
+		add(bg);
+
+		var logoBl = new FlxSprite(20, -45);
+		logoBl.frames = FlxAtlasFrames.fromSparrow('data/logoBumpin.png', 'data/logoBumpin.xml');
+		logoBl.antialiasing = true;
+		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, true);
+		logoBl.animation.play('bump');
+		logoBl.setGraphicSize(Std.int(logoBl.graphic.width * 0.35));
+		logoBl.updateHitbox();
+		add(logoBl);
 
 		var changelog = new FlxText(0, 70, FlxG.width - 10, "Changelogs:");
 		changelog.alignment = LEFT;
 		changelog.screenCenter(X);
 		add(changelog);
 
-		var funkyOverlay = new FlxSprite(0, FlxG.height - 50);
+		var funkyOverlay = new FlxSprite(0, 0);
 		funkyOverlay.makeGraphic(FlxG.width, 50, 0xFFA1A1A1);
 		add(funkyOverlay);
 
@@ -45,7 +62,7 @@ class PlayState extends FlxState
 
 		// lil test
 		#if !js
-		var versions = sys.Http.requestUrl("https://raw.githubusercontent.com/thepercentageguy/UFNF-Engine-Launcher/master/versions/index.html").split(",");
+		var versions = sys.Http.requestUrl("https://raw.githubusercontent.com/spunblue/UFNF-Engine-Launcher/master/versions/index.html").split(",");
 		trace(versions);
 
 		// changelog loop
@@ -57,7 +74,7 @@ class PlayState extends FlxState
 			if (!ver.trim().endsWith("--S"))
 			{
 				changelog.text += '\n\n${ver.trim()}:';
-				for (line in sys.Http.requestUrl('https://raw.githubusercontent.com/thepercentageguy/UFNF-Engine-Launcher/master/versions/${ver.trim()}/changelog.txt')
+				for (line in sys.Http.requestUrl('https://raw.githubusercontent.com/spunblue/UFNF-Engine-Launcher/master/versions/${ver.trim()}/changelog.txt')
 					.split("\n"))
 				{
 					changelog.text += '\n    - ${line}';
@@ -114,6 +131,7 @@ class PlayState extends FlxState
 			{
 				// just launch the game
 				Sys.command('start runGame.bat ${funnyVersion.selectedId.trim()}');
+				Sys.exit(0);
 				// Sys.command('start downloads/${funnyVersion.selectedId.trim()}/${funnyVersion.selectedId.trim().split("-")[0]}.exe');
 			}
 			else
@@ -133,8 +151,7 @@ class PlayState extends FlxState
 							'downloads/${funnyVersion.selectedId.trim()}');
 					Application.current.window.alert("Launching game!", "Done!");
 					Sys.command('start runGame.bat ${funnyVersion.selectedId.trim()}');
-					playButton.text = "Play";
-					allowPlay = true;
+					Sys.exit(0);
 				});
 			}
 			#end

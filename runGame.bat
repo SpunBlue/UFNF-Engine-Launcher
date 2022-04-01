@@ -2,6 +2,6 @@
 set gameFolder=%1
 cd downloads
 cd %gameFolder%
-start Funkin.exe
+start NUFNF.exe
 exit 0
 @echo on
